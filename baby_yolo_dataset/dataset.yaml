@@ -1,0 +1,8 @@
+
+train: images/train
+val: images/val
+
+names:
+  0: nam_ngua
+  1: nam_sap
+  2: khong_co_em_be
