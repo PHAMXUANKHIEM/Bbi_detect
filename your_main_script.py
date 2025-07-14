@@ -70,7 +70,7 @@ def is_stranger(embedding, known_encodings, threshold=0.6):
 print("🔄 Loading ArcFace model...")
 try:
     # Use CUDA if available, otherwise CPU
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     arcface_model = ArcFace(device=device)
 
     if arcface_model.app is not None:
@@ -87,7 +87,7 @@ except Exception as e:
 if arcface_model and arcface_model.app and frame_count % FACE_PROCESS_INTERVAL == 0:
     faces = face_detector.detect_faces(frame)
 
-    for (x, y, w, h) in faces:
+    for x, y, w, h in faces:
         # Skip faces that are inside baby detection boxes (likely baby faces)
         if is_child_face((x, y, w, h), baby_boxes):
             continue
@@ -121,9 +121,9 @@ if arcface_model and arcface_model.app and frame_count % FACE_PROCESS_INTERVAL =
         cv2.putText(frame, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
 
         # Alert for strangers
-        if stranger and current_time - last_alert_time['face'] > alert_interval:
+        if stranger and current_time - last_alert_time["face"] > alert_interval:
             print(f"🚨 CẢNH BÁO: Phát hiện người lạ! ({datetime.now().strftime('%H:%M:%S')})")
-            last_alert_time['face'] = current_time
+            last_alert_time["face"] = current_time
 
             # Save snapshot
             snapshot_path = f"snapshots/stranger_{int(current_time)}.jpg"
@@ -139,9 +139,7 @@ if arcface_model and arcface_model.app and frame_count % FACE_PROCESS_INTERVAL =
 
 # 5. RECOMMENDED: ADD ERROR HANDLING FOR ARCFACE MODEL FAILURES
 def safe_arcface_operation(func, *args, **kwargs):
-    """
-    Safely execute ArcFace operations with error handling.
-    """
+    """Safely execute ArcFace operations with error handling."""
     try:
         return func(*args, **kwargs)
     except Exception as e:
