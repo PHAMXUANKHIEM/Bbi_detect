@@ -1,15 +1,16 @@
-import numpy as np
-import cv2
-from insightface.app import FaceAnalysis
-import torch
 import warnings
+
+import cv2
+import numpy as np
+import torch
+from insightface.app import FaceAnalysis
 
 # Suppress warnings for cleaner output
 warnings.filterwarnings("ignore")
 
 
 class ArcFace:
-    def __init__(self, device='cpu'):
+    def __init__(self, device="cpu"):
         """
         Initialize ArcFace model for face embedding extraction.
 
@@ -21,21 +22,19 @@ class ArcFace:
 
         try:
             # Initialize with proper providers based on device
-            if device == 'cuda' and torch.cuda.is_available():
-                providers = ['CUDAExecutionProvider', 'CPUExecutionProvider']
+            if device == "cuda" and torch.cuda.is_available():
+                providers = ["CUDAExecutionProvider", "CPUExecutionProvider"]
                 print("🔄 Initializing ArcFace with CUDA...")
             else:
-                providers = ['CPUExecutionProvider']
+                providers = ["CPUExecutionProvider"]
                 print("🔄 Initializing ArcFace with CPU...")
 
             self.app = FaceAnalysis(
-                name='buffalo_sc',
-                providers=providers,
-                allowed_modules=['detection', 'recognition']
+                name="buffalo_sc", providers=providers, allowed_modules=["detection", "recognition"]
             )
 
             # Prepare with appropriate context and detection size
-            ctx_id = 0 if device == 'cuda' and torch.cuda.is_available() else -1
+            ctx_id = 0 if device == "cuda" and torch.cuda.is_available() else -1
             self.app.prepare(ctx_id=ctx_id, det_size=(640, 640))
 
             print(f"✅ ArcFace model initialized successfully on {device}")
@@ -212,7 +211,7 @@ class ArcFace:
     def __del__(self):
         """Cleanup resources."""
         try:
-            if hasattr(self, 'app') and self.app is not None:
+            if hasattr(self, "app") and self.app is not None:
                 del self.app
         except:
             pass
