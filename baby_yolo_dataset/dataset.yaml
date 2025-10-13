@@ -1,4 +1,3 @@
-
 train: images/train
 val: images/val
 
