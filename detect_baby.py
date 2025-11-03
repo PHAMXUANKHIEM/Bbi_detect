@@ -1,14 +1,14 @@
 import cv2
 import torch
-from utils.general import non_max_suppression, scale_coords
-from utils.augmentations import letterbox
+
 from models.common import DetectMultiBackend
+from utils.augmentations import letterbox
+from utils.general import non_max_suppression, scale_coords
 from utils.torch_utils import select_device
 
 weights = r"C:\best.pt"
-stream_url = 'http://192.168.133.174/stream'
-device = select_device('0' if torch.cuda.is_available() else 'cpu')
-
+stream_url = "http://192.168.133.174/stream"
+device = select_device("0" if torch.cuda.is_available() else "cpu")
 
 
 model = DetectMultiBackend(weights, device=device)
@@ -25,7 +25,7 @@ while True:
     if not ret:
         continue
     if frame_count % 3 == 0:
-    # Resize và chuẩn bị ảnh
+        # Resize và chuẩn bị ảnh
         img = letterbox(frame, 415, stride=stride, auto=True)[0]
         img = img.transpose((2, 0, 1))[::-1].copy()
         img = torch.from_numpy(img).to(device)
@@ -42,7 +42,7 @@ while True:
                 print(f"📍 Phát hiện: {label} ({conf:.2f})")
 
     cv2.imshow("Phat hien", frame)
-    if cv2.waitKey(1) == ord('q'):
+    if cv2.waitKey(1) == ord("q"):
         break
 
 cap.release()
