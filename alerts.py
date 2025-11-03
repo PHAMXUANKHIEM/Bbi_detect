@@ -1,14 +1,14 @@
-import requests
 import time
-from config import THINGSPEAK_WRITE_API, THINGSPEAK_URL, ZAPIER_WEBHOOK_URL
+
+import requests
+
+from config import THINGSPEAK_URL, THINGSPEAK_WRITE_API, ZAPIER_WEBHOOK_URL
+
 
 def send_thingspeak_alert(field, value):
     try:
-        res = requests.get(THINGSPEAK_URL, params={
-            "api_key": THINGSPEAK_WRITE_API,
-            f"field{field}": value
-        }, timeout=5)
-        if res.status_code == 200 and res.text != '0':
+        res = requests.get(THINGSPEAK_URL, params={"api_key": THINGSPEAK_WRITE_API, f"field{field}": value}, timeout=5)
+        if res.status_code == 200 and res.text != "0":
             print(f"⚠️ Đã gửi field{field}={value} lên ThingSpeak.")
             return True
     except Exception as e:
@@ -20,7 +20,7 @@ def send_zapier_webhook(image_link, alert_type):
     payload = {
         "message": f"⚠️ Cảnh báo {alert_type}!",
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "image_link": image_link
+        "image_link": image_link,
     }
     try:
         res = requests.post(ZAPIER_WEBHOOK_URL, json=payload, timeout=10)
@@ -32,4 +32,3 @@ def send_zapier_webhook(image_link, alert_type):
     except Exception as e:
         print(f"❌ Zapier error: {e}")
     return False
-

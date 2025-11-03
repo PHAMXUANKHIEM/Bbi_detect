@@ -1,5 +1,7 @@
 import os
+
 import face_recognition
+
 
 def load_known_faces(folder="known_faces"):
     known_encodings = []
